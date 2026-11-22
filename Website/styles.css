@@ -335,12 +335,153 @@ body {
 
 /* ==========================================================================
    DECLUTTERED HERO SECTION (B5: Centered, 680px cap, text gradient)
+   Equipped with Layer 1 (WebGL Wave) and Layer 2 (Liquid Glass)
    ========================================================================== */
 .hero-section {
+  position: relative;
+  overflow: hidden;
   padding: var(--space-700) 0 var(--space-600);
   background-color: var(--bg);
   border-bottom: 1px solid var(--border);
   text-align: center;
+}
+
+/* Layer 1: WebGL Wave Shader Canvas */
+.hero-wave-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0.90;
+}
+
+#webgl-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+[data-theme="light"] .hero-wave-layer {
+  filter: invert(1);
+  opacity: 0.75;
+}
+
+/* Layer 2: Liquid Glass Effect */
+.hero-glass-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-liquid-glass {
+  position: absolute;
+  inset: 8% 4%;
+  border-radius: var(--radius-xl);
+  pointer-events: none;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.hero-liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  backdrop-filter: url(#pack-upper);
+  -webkit-backdrop-filter: url(#pack-upper);
+}
+
+.hero-liquid-glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  backdrop-filter: url(#liquid-glass-new) url(#fresnel) drop-shadow(0 0 12px rgba(0, 0, 0, 0.35));
+  -webkit-backdrop-filter: url(#liquid-glass-new) url(#fresnel) drop-shadow(0 0 12px rgba(0, 0, 0, 0.35));
+}
+
+.hero-glass-elements {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  filter: url(#round) url(#pack-lower);
+  mix-blend-mode: plus-lighter;
+}
+
+.hero-glass-orb {
+  width: 7.5rem;
+  height: 7.5rem;
+  border-radius: 999px;
+  background: #ffffff;
+  opacity: 0.85;
+  will-change: transform;
+  animation: liquidFloat 16s ease-in-out infinite alternate;
+}
+
+.hero-glass-orb-2 {
+  width: 11rem;
+  height: 11rem;
+  animation-duration: 20s;
+  animation-delay: -5s;
+}
+
+.hero-glass-orb-3 {
+  width: 9rem;
+  height: 9rem;
+  animation-duration: 14s;
+  animation-delay: -9s;
+}
+
+.hero-glass-orb-4 {
+  width: 6.5rem;
+  height: 6.5rem;
+  animation-duration: 18s;
+  animation-delay: -3s;
+}
+
+@keyframes liquidFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -25px) scale(1.12);
+  }
+  66% {
+    transform: translate(-35px, 20px) scale(0.92);
+  }
+  100% {
+    transform: translate(20px, 30px) scale(1.05);
+  }
+}
+
+/* Foreground Content */
+.hero-container {
+  position: relative;
+  z-index: 10;
+}
+
+.svg-filters-root {
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 
 .hero-wrap {

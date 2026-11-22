@@ -73,6 +73,7 @@
     updateDashboardStats();
     updateFilterCounts();
     setupTaglineReveal();
+    initHeroEffects();
     renderFeed();
     updateBookmarkBadges();
   }
@@ -635,6 +636,274 @@
         copyToClipboard(promptText);
         showToast('Socratic Coach prompt copied to clipboard');
       });
+    }
+  }
+
+  // ==========================================================================
+  // HERO BACKGROUND: LAYER 1 (WebGL Wave) & LAYER 2 (Liquid Glass)
+  // ==========================================================================
+  function initHeroEffects() {
+    const canvas = document.getElementById("webgl-canvas");
+    if (!canvas) return;
+
+    const vShaderEl = document.getElementById("js-vertex-shader");
+    const fShaderEl = document.getElementById("js-fragment-shader");
+    if (!vShaderEl || !fShaderEl) return;
+
+    // Check if Three.js is loaded
+    if (typeof THREE !== "undefined") {
+      class Stage {
+        constructor() {
+          this.canvas = canvas;
+          this.container = canvas.closest('.hero-section') || canvas.parentElement;
+
+          const initialWidth = this.container ? this.container.clientWidth : window.innerWidth;
+          const initialHeight = this.container ? this.container.clientHeight : 560;
+
+          this.renderParam = {
+            clearColor: 0x000000,
+            width: initialWidth,
+            height: initialHeight
+          };
+
+          this.cameraParam = {
+            left: -1,
+            right: 1,
+            top: 1,
+            bottom: -1,
+            near: 0,
+            far: 1
+          };
+
+          this.scene = null;
+          this.camera = null;
+          this.renderer = null;
+          this.isInitialized = false;
+        }
+
+        init() {
+          this._setScene();
+          this._setRender();
+          this._setCamera();
+          this.isInitialized = true;
+        }
+
+        _setScene() {
+          this.scene = new THREE.Scene();
+        }
+
+        _setRender() {
+          this.renderer = new THREE.WebGLRenderer({
+            canvas: this.canvas,
+            alpha: true,
+            antialias: false,
+            powerPreference: "high-performance"
+          });
+          this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+          this.renderer.setClearColor(new THREE.Color(this.renderParam.clearColor), 1.0);
+          this.renderer.setSize(this.renderParam.width, this.renderParam.height, false);
+        }
+
+        _setCamera() {
+          const w = this.container ? this.container.clientWidth : window.innerWidth;
+          const h = this.container ? this.container.clientHeight : 560;
+
+          if (!this.camera) {
+            this.camera = new THREE.OrthographicCamera(
+              this.cameraParam.left,
+              this.cameraParam.right,
+              this.cameraParam.top,
+              this.cameraParam.bottom,
+              this.cameraParam.near,
+              this.cameraParam.far
+            );
+          }
+
+          this.camera.aspect = w / h;
+          this.camera.updateProjectionMatrix();
+          if (this.renderer) {
+            this.renderer.setSize(w, h, false);
+          }
+        }
+
+        _render() {
+          if (this.renderer && this.scene && this.camera) {
+            this.renderer.render(this.scene, this.camera);
+          }
+        }
+
+        onResize() {
+          if (this.isInitialized) {
+            this._setCamera();
+          }
+        }
+
+        onRaf() {
+          this._render();
+        }
+      }
+
+      class Mesh {
+        constructor(stage) {
+          this.stage = stage;
+          this.canvas = stage.canvas;
+          const w = this.canvas ? this.canvas.width : window.innerWidth;
+          const h = this.canvas ? this.canvas.height : 560;
+
+          this.uniforms = {
+            resolution: { type: "v2", value: [ w, h ] },
+            time: { type: "f", value: 0.0 },
+            xScale: { type: "f", value: 1.0 },
+            yScale: { type: "f", value: 0.5 },
+            distortion: { type: "f", value: 0.050 }
+          };
+
+          this.mesh = null;
+        }
+
+        init() {
+          this._setMesh();
+        }
+
+        _setMesh() {
+          const position = [
+            -1.0, -1.0, 0.0,
+             1.0, -1.0, 0.0,
+            -1.0,  1.0, 0.0,
+             1.0, -1.0, 0.0,
+            -1.0,  1.0, 0.0,
+             1.0,  1.0, 0.0
+          ];
+
+          const positions = new THREE.BufferAttribute(new Float32Array(position), 3);
+          const geometry = new THREE.BufferGeometry();
+          geometry.setAttribute("position", positions);
+
+          const material = new THREE.RawShaderMaterial({
+            vertexShader: vShaderEl.textContent,
+            fragmentShader: fShaderEl.textContent,
+            uniforms: this.uniforms,
+            side: THREE.DoubleSide
+          });
+
+          this.mesh = new THREE.Mesh(geometry, material);
+          this.stage.scene.add(this.mesh);
+        }
+
+        onResize() {
+          if (this.canvas && this.uniforms.resolution) {
+            this.uniforms.resolution.value = [this.canvas.width, this.canvas.height];
+          }
+        }
+
+        onRaf() {
+          this.uniforms.time.value += 0.01;
+        }
+      }
+
+      const stage = new Stage();
+      stage.init();
+
+      const mesh = new Mesh(stage);
+      mesh.init();
+
+      window.addEventListener("resize", () => {
+        stage.onResize();
+        mesh.onResize();
+      }, { passive: true });
+
+      let isVisible = true;
+      const heroSec = canvas.closest('.hero-section');
+      if (heroSec && 'IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries) => {
+          isVisible = entries[0].isIntersecting;
+        }, { threshold: 0.05 });
+        obs.observe(heroSec);
+      }
+
+      const _raf = () => {
+        window.requestAnimationFrame(() => {
+          if (isVisible) {
+            stage.onRaf();
+            mesh.onRaf();
+          }
+          _raf();
+        });
+      };
+      _raf();
+    } else {
+      // High Performance Native WebGL Runner (Zero Dependencies)
+      const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+      if (!gl) return;
+
+      function createShader(gl, type, src) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        return s;
+      }
+
+      const prog = gl.createProgram();
+      gl.attachShader(prog, createShader(gl, gl.VERTEX_SHADER, vShaderEl.textContent));
+      gl.attachShader(prog, createShader(gl, gl.FRAGMENT_SHADER, fShaderEl.textContent));
+      gl.linkProgram(prog);
+      gl.useProgram(prog);
+
+      const posBuffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, posBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+        -1, -1, 0,  1, -1, 0, -1,  1, 0,
+         1, -1, 0, -1,  1, 0,  1,  1, 0
+      ]), gl.STATIC_DRAW);
+
+      const posAttr = gl.getAttribLocation(prog, "position");
+      gl.enableVertexAttribArray(posAttr);
+      gl.vertexAttribPointer(posAttr, 3, gl.FLOAT, false, 0, 0);
+
+      const resLoc = gl.getUniformLocation(prog, "resolution");
+      const timeLoc = gl.getUniformLocation(prog, "time");
+      const xScaleLoc = gl.getUniformLocation(prog, "xScale");
+      const yScaleLoc = gl.getUniformLocation(prog, "yScale");
+      const distLoc = gl.getUniformLocation(prog, "distortion");
+
+      gl.uniform1f(xScaleLoc, 1.0);
+      gl.uniform1f(yScaleLoc, 0.5);
+      gl.uniform1f(distLoc, 0.050);
+
+      let time = 0;
+      let isVisible = true;
+
+      function resize() {
+        const container = canvas.closest('.hero-section') || canvas.parentElement;
+        const w = container ? container.clientWidth : window.innerWidth;
+        const h = container ? container.clientHeight : 560;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.uniform2f(resLoc, canvas.width, canvas.height);
+      }
+
+      resize();
+      window.addEventListener("resize", resize, { passive: true });
+
+      const heroSec = canvas.closest('.hero-section');
+      if (heroSec && 'IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries) => {
+          isVisible = entries[0].isIntersecting;
+        }, { threshold: 0.05 });
+        obs.observe(heroSec);
+      }
+
+      function render() {
+        if (isVisible) {
+          time += 0.01;
+          gl.uniform1f(timeLoc, time);
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+        }
+        window.requestAnimationFrame(render);
+      }
+      window.requestAnimationFrame(render);
     }
   }
 
