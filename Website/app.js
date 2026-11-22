@@ -6,6 +6,27 @@
 (function () {
   'use strict';
 
+  // Helpers for Safe LocalStorage (react-best-practices: client-localstorage-schema)
+  function getStoredBookmarks() {
+    try {
+      const raw = localStorage.getItem('endsem_bookmarks');
+      return new Set(raw ? JSON.parse(raw) : []);
+    } catch (e) {
+      return new Set();
+    }
+  }
+
+  function getStoredTheme() {
+    try {
+      const saved = localStorage.getItem('endsem_theme');
+      if (saved) return saved;
+    } catch (e) {}
+    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+
+  // Precomputed index map for O(1) item lookups (react-best-practices: js-index-maps)
+  let catalogMap = new Map();
+
   // State Management
   const state = {
     subject: 'all',
@@ -14,8 +35,8 @@
     availability: 'all',
     bookmarksOnly: false,
     searchQuery: '',
-    bookmarks: new Set(JSON.parse(localStorage.getItem('endsem_bookmarks') || '[]')),
-    theme: localStorage.getItem('endsem_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+    bookmarks: getStoredBookmarks(),
+    theme: getStoredTheme(),
     activeModalItem: null
   };
 
@@ -26,6 +47,7 @@
     themeIcon: document.getElementById('themeIcon'),
     searchInput: document.getElementById('searchInput'),
     searchClear: document.getElementById('searchClear'),
+    searchShortcutHint: document.querySelector('.search-shortcut-hint'),
     cardsGrid: document.getElementById('cardsGrid'),
     emptyState: document.getElementById('emptyState'),
     resultsCount: document.getElementById('resultsCount'),
@@ -43,6 +65,9 @@
 
   // Initialize Application
   function init() {
+    if (typeof CATALOG_DATA !== 'undefined' && Array.isArray(CATALOG_DATA)) {
+      catalogMap = new Map(CATALOG_DATA.map(item => [item.id, item]));
+    }
     applyTheme(state.theme);
     setupEventListeners();
     updateDashboardStats();
@@ -299,9 +324,9 @@
     elements.cardsGrid.innerHTML = html;
   }
 
-  // Open Document Detail Modal
+  // Open Document Detail Modal (O(1) Map lookup)
   function openDetailModal(id) {
-    const item = CATALOG_DATA.find(x => x.id === id);
+    const item = catalogMap.get(id) || (typeof CATALOG_DATA !== 'undefined' ? CATALOG_DATA.find(x => x.id === id) : null);
     if (!item) return;
 
     state.activeModalItem = item;
@@ -430,7 +455,11 @@
     if (elements.searchInput) {
       elements.searchInput.addEventListener('input', (e) => {
         state.searchQuery = e.target.value.trim();
-        elements.searchClear.classList.toggle('visible', state.searchQuery.length > 0);
+        const hasQuery = state.searchQuery.length > 0;
+        elements.searchClear.classList.toggle('visible', hasQuery);
+        if (elements.searchShortcutHint) {
+          elements.searchShortcutHint.classList.toggle('hidden', hasQuery);
+        }
         renderFeed();
       });
     }
@@ -441,6 +470,9 @@
         elements.searchInput.value = '';
         state.searchQuery = '';
         elements.searchClear.classList.remove('visible');
+        if (elements.searchShortcutHint) {
+          elements.searchShortcutHint.classList.remove('hidden');
+        }
         renderFeed();
         elements.searchInput.focus();
       });

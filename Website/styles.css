@@ -2,9 +2,8 @@
    LANDING PAGE DESIGN SYSTEM (B1 to B11)
    Strict visual rules: Geist typography, flat surfaces, 8-pt spacing,
    nested radii, decluttered hero, tagline reveal, and fluid microcopy.
+   Fonts loaded with zero waterfall via index.html preconnect links.
    ========================================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
 
 :root {
   /* Neutrals (Light Mode) */
@@ -658,6 +657,13 @@ body {
   background-color: var(--border);
   color: var(--text-tertiary);
   pointer-events: none;
+  transition: opacity var(--dur-fast) var(--ease-base);
+}
+
+.search-bar-wrap:has(.search-clear-btn.visible) .search-shortcut-hint,
+.search-shortcut-hint.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Subject Filter Row (Compact Pills) */
@@ -794,8 +800,10 @@ body {
   }
 }
 
-/* Activity Card */
+/* Activity Card (Optimized with content-visibility for 60fps scrolling) */
 .activity-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 260px;
   background-color: var(--surface-raised);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
