@@ -47,6 +47,7 @@
     setupEventListeners();
     updateDashboardStats();
     updateFilterCounts();
+    setupTaglineReveal();
     renderFeed();
     updateBookmarkBadges();
   }
@@ -90,7 +91,6 @@
     }
   }
 
-
   function updateFilterCounts() {
     if (typeof CATALOG_DATA === 'undefined') return;
     document.querySelectorAll('[data-subject]').forEach(btn => {
@@ -110,6 +110,35 @@
     if (elements.totalFilesCount) elements.totalFilesCount.textContent = realFiles.length;
     if (elements.totalPyqsCount) elements.totalPyqsCount.textContent = pyqs.length;
     if (elements.totalSubjectsCount) elements.totalSubjectsCount.textContent = '4';
+  }
+
+  // Mandatory Tagline Reveal (B11)
+  function setupTaglineReveal() {
+    const words = document.querySelectorAll('.reveal-word');
+    if (!words.length) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      words.forEach(w => w.classList.add('revealed'));
+      return;
+    }
+
+    const section = document.getElementById('taglineReveal');
+    if (!section) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          words.forEach((w, index) => {
+            setTimeout(() => {
+              w.classList.add('revealed');
+            }, index * 55);
+          });
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+
+    observer.observe(section);
   }
 
   // Filter Catalog Data
@@ -164,7 +193,7 @@
     });
   }
 
-  // Render Activity Feed Cards
+  // Render Activity Feed Cards (Decluttered per landing page design)
   function renderFeed() {
     const items = getFilteredItems();
 
@@ -194,12 +223,12 @@
       // Subject Pill class
       const subjectClass = `card-subject-pill card-subject-${item.subject}`;
 
-      // Topics Chips
+      // Topics Chips (up to 3)
       const topicsHtml = (item.keyTopics || []).slice(0, 3).map(topic =>
         `<span class="topic-tag">${escapeHtml(topic)}</span>`
       ).join('');
 
-      // Stats row items
+      // Metadata labels
       const pagesLabel = item.pages ? `${item.pages} pgs` : 'Pending';
       const marksLabel = item.marks ? `${item.marks} M` : 'Spec';
       const patternLabel = item.pattern || '2024';
@@ -226,23 +255,14 @@
             <h3 class="card-title">${escapeHtml(item.title)}</h3>
             <p class="card-subtitle">${escapeHtml(item.subtitle)}</p>
 
-            <div class="card-stats-row">
-              <div class="card-stat-item">
-                <span class="card-stat-label">Length</span>
-                <span class="card-stat-value numeric">${pagesLabel}</span>
-              </div>
-              <div class="card-stat-item">
-                <span class="card-stat-label">Marks</span>
-                <span class="card-stat-value numeric">${marksLabel}</span>
-              </div>
-              <div class="card-stat-item">
-                <span class="card-stat-label">Pattern</span>
-                <span class="card-stat-value">${patternLabel}</span>
-              </div>
-              <div class="card-stat-item">
-                <span class="card-stat-label">Exam Session</span>
-                <span class="card-stat-value">${termLabel}</span>
-              </div>
+            <div class="card-meta-line">
+              <span class="meta-pill numeric">${pagesLabel}</span>
+              <span class="meta-dot" aria-hidden="true">•</span>
+              <span class="meta-pill numeric">${marksLabel}</span>
+              <span class="meta-dot" aria-hidden="true">•</span>
+              <span class="meta-pill">${termLabel}</span>
+              <span class="meta-dot" aria-hidden="true">•</span>
+              <span class="meta-pill">${patternLabel}</span>
             </div>
 
             <div class="card-topics">
@@ -267,11 +287,9 @@
               </button>
             </div>
             ${!isPlaceholder ? `
-              <div class="card-actions-right">
-                <button class="btn btn-sm btn-secondary" data-copy-path="${escapeHtml(item.projectPath || item.path)}" title="Copy relative path" aria-label="Copy local path">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-                </button>
-              </div>
+              <button class="btn btn-sm btn-secondary" data-copy-path="${escapeHtml(item.projectPath || item.path)}" title="Copy relative path" aria-label="Copy local path">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              </button>
             ` : ''}
           </div>
         </article>
@@ -352,13 +370,13 @@
     document.body.style.overflow = '';
   }
 
-  // Toast Notification System (Sub-100ms feedback)
+  // Toast Notification System
   function showToast(message) {
     if (!elements.toastContainer) return;
     const toast = document.createElement('div');
     toast.className = 'toast';
     toast.innerHTML = `
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
       <span>${escapeHtml(message)}</span>
     `;
     elements.toastContainer.appendChild(toast);
@@ -430,14 +448,12 @@
 
     // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
-      // Focus search with '/' or 'Cmd+K' / 'Ctrl+K'
       if ((e.key === '/' || ((e.metaKey || e.ctrlKey) && e.key === 'k')) && document.activeElement !== elements.searchInput) {
         e.preventDefault();
         elements.searchInput.focus();
         elements.searchInput.select();
       }
 
-      // Close open modals with Escape
       if (e.key === 'Escape') {
         if (elements.detailModal.classList.contains('open')) {
           closeDetailModal();
@@ -514,7 +530,6 @@
         if (elements.searchInput) elements.searchInput.value = '';
         if (elements.searchClear) elements.searchClear.classList.remove('visible');
 
-        // Reset all active classes
         document.querySelectorAll('[data-subject]').forEach(b => b.classList.toggle('active', b.getAttribute('data-subject') === 'all'));
         document.querySelectorAll('[data-category]').forEach(b => b.classList.toggle('active', b.getAttribute('data-category') === 'all'));
         document.querySelectorAll('[data-exam]').forEach(b => b.classList.toggle('active', b.getAttribute('data-exam') === 'all'));
@@ -527,7 +542,6 @@
 
     // Card Actions Delegation
     elements.cardsGrid.addEventListener('click', (e) => {
-      // Bookmark button
       const bookmarkBtn = e.target.closest('[data-bookmark]');
       if (bookmarkBtn) {
         const id = bookmarkBtn.getAttribute('data-bookmark');
@@ -535,7 +549,6 @@
         return;
       }
 
-      // Details button
       const detailBtn = e.target.closest('[data-detail]');
       if (detailBtn) {
         const id = detailBtn.getAttribute('data-detail');
@@ -543,7 +556,6 @@
         return;
       }
 
-      // Copy Path button
       const copyBtn = e.target.closest('[data-copy-path]');
       if (copyBtn) {
         const path = copyBtn.getAttribute('data-copy-path');
@@ -553,8 +565,8 @@
       }
     });
 
-    // High-Yield Segment Cards Click
-    document.querySelectorAll('.segment-card[data-target-id]').forEach(card => {
+    // Spotlight Cards Click
+    document.querySelectorAll('.spotlight-card[data-target-id]').forEach(card => {
       card.addEventListener('click', () => {
         const targetId = card.getAttribute('data-target-id');
         openDetailModal(targetId);
@@ -569,7 +581,6 @@
       });
     });
 
-    // Backdrop clicks
     elements.detailModal.addEventListener('click', (e) => {
       if (e.target === elements.detailModal) closeDetailModal();
     });
@@ -578,7 +589,6 @@
       if (e.target === elements.coachModal) closeCoachModal();
     });
 
-    // Coach Modal Openers
     if (elements.coachModalBtn) {
       elements.coachModalBtn.addEventListener('click', openCoachModal);
     }
@@ -586,7 +596,6 @@
       elements.heroCoachBtn.addEventListener('click', openCoachModal);
     }
 
-    // Copy Prompt Button inside Coach Modal
     const copyPromptBtn = document.getElementById('copyPromptBtn');
     if (copyPromptBtn) {
       copyPromptBtn.addEventListener('click', () => {

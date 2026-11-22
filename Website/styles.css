@@ -1,7 +1,10 @@
 /* ==========================================================================
-   STRAVA-STYLE ENDSEM TRAINING HUB DESIGN SYSTEM
-   Clean, athletic, purposeful design based on "What Makes an App Feel Premium"
+   LANDING PAGE DESIGN SYSTEM (B1 to B11)
+   Strict visual rules: Geist typography, flat surfaces, 8-pt spacing,
+   nested radii, decluttered hero, tagline reveal, and fluid microcopy.
    ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
 
 :root {
   /* Neutrals (Light Mode) */
@@ -14,9 +17,12 @@
   --border-strong: rgba(0, 0, 0, 0.16);
   --text: #111113;
   --text-secondary: rgba(17, 17, 19, 0.68);
-  --text-tertiary: rgba(17, 17, 19, 0.46);
+  --text-tertiary: rgba(17, 17, 19, 0.44);
 
-  /* Brand / Accent (Strava Saturated Athletic Orange) */
+  /* Hero Heading Gradient (Light Mode per B5) */
+  --heading-gradient: linear-gradient(180deg, #000000 0%, #666666 100%);
+
+  /* Brand Accent (Strava Athletic Orange) */
   --accent: #FC4C02;
   --accent-hover: #E24300;
   --accent-soft: rgba(252, 76, 2, 0.10);
@@ -35,55 +41,61 @@
   --semantic-cyan: #0284C7;
   --semantic-cyan-soft: rgba(2, 132, 199, 0.12);
 
-  /* Typography */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  /* Typography (B1: Geist & Geist Mono) */
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, Menlo, monospace;
 
-  /* Spacing Scale (8-point grid) */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-8: 48px;
-  --space-10: 64px;
+  /* Strict Spacing Tokens (B2) */
+  --space-0: 0px;
+  --space-25: 2px;
+  --space-50: 4px;
+  --space-75: 8px;
+  --space-100: 12px;
+  --space-200: 16px;
+  --space-300: 24px;
+  --space-400: 32px;
+  --space-500: 40px;
+  --space-600: 48px;
+  --space-700: 64px;
+  --space-800: 80px;
+  --space-900: 96px;
 
-  /* Corner Radii */
+  /* Corner Radii (B3) */
   --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 18px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
   --radius-pill: 999px;
 
-  /* Layered Shadows (Elevation) */
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-2: 0 1px 3px rgba(0, 0, 0, 0.05), 0 8px 24px rgba(0, 0, 0, 0.06);
-  --shadow-3: 0 2px 6px rgba(0, 0, 0, 0.06), 0 16px 40px rgba(0, 0, 0, 0.10);
-  --shadow-modal: 0 8px 32px rgba(0, 0, 0, 0.20), 0 24px 64px rgba(0, 0, 0, 0.24);
+  /* Elevation Shadows */
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-2: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.16);
 
-  /* Motion & Timings */
-  --dur-fast: 120ms;
-  --dur-base: 200ms;
-  --dur-slow: 320ms;
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Base Motion Curve (B7) */
+  --ease-base: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur-base: 300ms;
+  --dur-slow: 500ms;
 
-  /* Container Width */
-  --max-width: 1280px;
+  --max-width: 1200px;
 }
 
-/* Dark Mode Tokens */
+/* Dark Mode Tokens (B4: Flat dark backgrounds) */
 [data-theme="dark"] {
-  --bg: #0E0E10;
-  --bg-subtle: #141418;
-  --surface: #18181D;
-  --surface-raised: #22222A;
-  --surface-hover: #2A2A34;
-  --border: rgba(255, 255, 255, 0.10);
-  --border-strong: rgba(255, 255, 255, 0.20);
+  --bg: #000000;
+  --bg-subtle: #141416;
+  --surface: #181818;
+  --surface-raised: #1F1F1F;
+  --surface-hover: #272727;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
   --text: rgba(255, 255, 255, 0.94);
   --text-secondary: rgba(255, 255, 255, 0.65);
-  --text-tertiary: rgba(255, 255, 255, 0.44);
+  --text-tertiary: rgba(255, 255, 255, 0.40);
+
+  /* Hero Heading Gradient (Dark Mode per B5) */
+  --heading-gradient: linear-gradient(180deg, #FFFFFF 0%, #9B9B9B 100%);
 
   --accent: #FF6A2B;
   --accent-hover: #FF7E45;
@@ -91,24 +103,25 @@
   --accent-border: rgba(255, 106, 43, 0.35);
   --on-accent: #FFFFFF;
 
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-2: 0 2px 8px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
-  --shadow-3: 0 4px 16px rgba(0, 0, 0, 0.6), 0 16px 48px rgba(0, 0, 0, 0.5);
-  --shadow-modal: 0 12px 48px rgba(0, 0, 0, 0.8), 0 32px 80px rgba(0, 0, 0, 0.9);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.85);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0E0E10;
-    --bg-subtle: #141418;
-    --surface: #18181D;
-    --surface-raised: #22222A;
-    --surface-hover: #2A2A34;
-    --border: rgba(255, 255, 255, 0.10);
-    --border-strong: rgba(255, 255, 255, 0.20);
+    --bg: #000000;
+    --bg-subtle: #141416;
+    --surface: #181818;
+    --surface-raised: #1F1F1F;
+    --surface-hover: #272727;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.16);
     --text: rgba(255, 255, 255, 0.94);
     --text-secondary: rgba(255, 255, 255, 0.65);
-    --text-tertiary: rgba(255, 255, 255, 0.44);
+    --text-tertiary: rgba(255, 255, 255, 0.40);
+
+    --heading-gradient: linear-gradient(180deg, #FFFFFF 0%, #9B9B9B 100%);
 
     --accent: #FF6A2B;
     --accent-hover: #FF7E45;
@@ -116,14 +129,13 @@
     --accent-border: rgba(255, 106, 43, 0.35);
     --on-accent: #FFFFFF;
 
-    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
-    --shadow-2: 0 2px 8px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
-    --shadow-3: 0 4px 16px rgba(0, 0, 0, 0.6), 0 16px 48px rgba(0, 0, 0, 0.5);
-    --shadow-modal: 0 12px 48px rgba(0, 0, 0, 0.8), 0 32px 80px rgba(0, 0, 0, 0.9);
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5);
+    --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.6);
+    --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.85);
   }
 }
 
-/* Base Reset & Typography */
+/* Base Reset */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -144,53 +156,40 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
   background-color: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
-/* Numerals (Strava-Style Tabular Numbers) */
-.numeric, .stat-value, .badge-count, .table-num {
+/* Numerals (Geist Mono / Tabular numbers) */
+.numeric {
+  font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
 }
 
-/* Focus Indicator (Accessible WCAG AA) */
+/* Accessible Focus Ring (B9) */
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
-/* Screen Reader Only Utility */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* App Container */
 .container {
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 0 var(--space-4);
+  padding: 0 var(--space-200);
 }
 
 @media (min-width: 768px) {
   .container {
-    padding: 0 var(--space-6);
+    padding: 0 var(--space-400);
   }
 }
 
 /* ==========================================================================
-   NAVIGATION BAR (STRAVA STYLE)
+   NAVIGATION BAR (COMPACT & FLOATING per B7)
    ========================================================================== */
 .site-header {
   position: sticky;
@@ -198,91 +197,79 @@ body {
   z-index: 100;
   background-color: var(--bg);
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: background-color var(--dur-base) var(--ease-out);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: background-color var(--dur-base) var(--ease-base);
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
-  gap: var(--space-4);
+  height: 56px;
+  gap: var(--space-200);
 }
 
 .brand-group {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-100);
   text-decoration: none;
   color: inherit;
 }
 
 .brand-icon-wrap {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-md);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
   background: var(--accent);
   color: var(--on-accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(252, 76, 2, 0.3);
   flex-shrink: 0;
 }
 
 .brand-icon-wrap svg {
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   fill: currentColor;
 }
 
-.brand-titles {
-  display: flex;
-  flex-direction: column;
-}
-
 .brand-title {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: -0.01em;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-75);
 }
 
 .brand-badge {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: var(--radius-pill);
   background-color: var(--accent-soft);
   color: var(--accent);
   letter-spacing: 0.04em;
 }
 
-.brand-subtitle {
-  font-size: 12px;
-  color: var(--text-tertiary);
-  font-weight: 500;
-}
-
 .header-actions {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-75);
 }
 
-/* Buttons */
+/* Buttons (B1 & B9: Named button styles with active feedback) */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  padding: 0 var(--space-4);
-  min-height: 44px;
+  gap: var(--space-75);
+  padding: 8px 14px;
+  min-height: 40px;
   border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 600;
@@ -290,15 +277,14 @@ body {
   text-decoration: none;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform var(--dur-fast) var(--ease-out),
-              background-color var(--dur-fast) var(--ease-out),
-              border-color var(--dur-fast) var(--ease-out),
-              box-shadow var(--dur-fast) var(--ease-out);
   white-space: nowrap;
+  transition: transform var(--dur-fast) var(--ease-base),
+              background-color var(--dur-fast) var(--ease-base),
+              border-color var(--dur-fast) var(--ease-base);
 }
 
 .btn:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
 .btn-primary {
@@ -322,10 +308,10 @@ body {
 }
 
 .btn-icon {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
   padding: 0;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   background-color: var(--surface);
   color: var(--text);
   border: 1px solid var(--border);
@@ -336,41 +322,35 @@ body {
 }
 
 .btn-sm {
-  min-height: 34px;
-  padding: 0 var(--space-3);
+  min-height: 32px;
+  padding: 4px 10px;
   font-size: 13px;
   border-radius: var(--radius-sm);
 }
 
+.btn-lg {
+  min-height: 46px;
+  padding: 10px 20px;
+  font-size: 15px;
+}
+
 /* ==========================================================================
-   HERO TRAINING DASHBOARD (STRAVA ATHLETE HEADER)
+   DECLUTTERED HERO SECTION (B5: Centered, 680px cap, text gradient)
    ========================================================================== */
 .hero-section {
-  padding: var(--space-6) 0 var(--space-8);
+  padding: var(--space-700) 0 var(--space-600);
+  background-color: var(--bg);
   border-bottom: 1px solid var(--border);
-  background-color: var(--bg-subtle);
+  text-align: center;
 }
 
-.hero-header {
+.hero-wrap {
+  max-width: 680px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
-}
-
-@media (min-width: 768px) {
-  .hero-header {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
-  }
-}
-
-.hero-meta {
-  display: flex;
   align-items: center;
-  gap: var(--space-2);
-  margin-bottom: var(--space-2);
+  gap: var(--space-200);
 }
 
 .hero-tag {
@@ -380,10 +360,10 @@ body {
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   color: var(--accent);
   background-color: var(--accent-soft);
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: var(--radius-pill);
 }
 
@@ -394,213 +374,223 @@ body {
 }
 
 .hero-title {
-  font-size: 32px;
+  font-size: 40px;
   line-height: 1.15;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  color: var(--text);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  background: var(--heading-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 @media (min-width: 768px) {
   .hero-title {
-    font-size: 40px;
+    font-size: 52px;
   }
 }
 
 .hero-desc {
   font-size: 16px;
+  line-height: 1.6;
   color: var(--text-secondary);
-  max-width: 680px;
-  margin-top: var(--space-2);
+  text-wrap: pretty;
+  margin-top: var(--space-75);
 }
 
-/* Stat Cards Grid (Hero Numerals) */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-3);
-}
-
-@media (min-width: 992px) {
-  .stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-4);
-  }
-}
-
-.stat-card {
-  background-color: var(--surface-raised);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-5);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  box-shadow: var(--shadow-1);
-  transition: transform var(--dur-fast) var(--ease-out),
-              box-shadow var(--dur-fast) var(--ease-out);
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-2);
-}
-
-.stat-label-wrap {
+.hero-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: var(--space-100);
+  margin-top: var(--space-200);
+  flex-wrap: wrap;
 }
 
-.stat-label {
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--text-tertiary);
-}
-
-.stat-icon {
-  width: 20px;
-  height: 20px;
-  color: var(--accent);
-}
-
-.stat-value {
-  font-size: 44px;
-  font-weight: 800;
-  line-height: 1.05;
-  color: var(--text);
-  letter-spacing: -0.03em;
-}
-
-.stat-subtext {
+/* Sleek Proof Strip (Decluttered replacement for bulky 4 stat cards) */
+.hero-proof-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-200);
+  margin-top: var(--space-400);
+  padding: var(--space-100) var(--space-300);
+  border-radius: var(--radius-pill);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
   font-size: 13px;
   color: var(--text-secondary);
-  font-weight: 500;
+}
+
+.proof-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.proof-item strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.proof-dot {
+  color: var(--border-strong);
+  user-select: none;
 }
 
 /* ==========================================================================
-   STRAVA "SEGMENTS" / HIGH-YIELD TROPHY BANNER
+   TAGLINE REVEAL SECTION (B11: Mandatory 2-line statement)
    ========================================================================== */
-.segments-section {
-  padding: var(--space-5) 0;
+.tagline-section {
+  padding: var(--space-700) 0;
+  background-color: var(--bg-subtle);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.tagline-wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.tagline-text {
+  font-size: 28px;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--text);
+}
+
+@media (min-width: 768px) {
+  .tagline-text {
+    font-size: 34px;
+  }
+}
+
+.reveal-word {
+  display: inline-block;
+  opacity: 0.28;
+  transition: opacity 400ms var(--ease-base);
+}
+
+.reveal-word.revealed {
+  opacity: 1;
+}
+
+/* ==========================================================================
+   SPOTLIGHT SECTION (Decluttered High Priority Exam Materials)
+   ========================================================================== */
+.spotlight-section {
+  padding: var(--space-400) 0;
   border-bottom: 1px solid var(--border);
   background-color: var(--bg);
 }
 
-.segments-header {
+.section-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-200);
 }
 
-.section-label {
-  font-size: 14px;
+.section-head-title {
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-75);
 }
 
-.section-label svg {
+.section-head-title svg {
   color: var(--accent);
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
 }
 
-.segments-carousel {
+.spotlight-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-3);
+  gap: var(--space-200);
 }
 
 @media (min-width: 640px) {
-  .segments-carousel {
+  .spotlight-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  .segments-carousel {
+  .spotlight-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-.segment-card {
+.spotlight-card {
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: var(--space-4);
+  padding: var(--space-200);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: var(--space-3);
-  text-decoration: none;
-  color: inherit;
+  gap: var(--space-100);
   cursor: pointer;
-  position: relative;
-  transition: all var(--dur-fast) var(--ease-out);
+  transition: transform var(--dur-fast) var(--ease-base),
+              background-color var(--dur-fast) var(--ease-base),
+              border-color var(--dur-fast) var(--ease-base);
 }
 
-.segment-card:hover {
+.spotlight-card:hover {
   background-color: var(--surface-raised);
   border-color: var(--accent);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-2);
+  box-shadow: var(--shadow-1);
 }
 
-.segment-top {
+.spotlight-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
 }
 
-.segment-badge {
+.spotlight-badge {
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 3px 8px;
+  letter-spacing: 0.03em;
+  padding: 2px 7px;
   border-radius: var(--radius-pill);
   background-color: var(--accent-soft);
   color: var(--accent);
 }
 
-.segment-trophy {
-  color: #E8A317;
-  display: flex;
-  align-items: center;
-}
-
-.segment-title {
-  font-size: 15px;
+.spotlight-title {
+  font-size: 14px;
   font-weight: 700;
   color: var(--text);
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
-.segment-meta {
+.spotlight-meta {
   font-size: 12px;
   color: var(--text-tertiary);
-  font-weight: 500;
 }
 
 /* ==========================================================================
-   INTERACTIVE CONTROLS (SEARCH & SEGMENTED FILTERS)
+   STREAMLINED STICKY FILTER BAR
    ========================================================================== */
 .controls-section {
   position: sticky;
-  top: 64px;
+  top: 56px;
   z-index: 90;
   background-color: var(--bg);
   border-bottom: 1px solid var(--border);
-  padding: var(--space-3) 0;
+  padding: var(--space-100) 0;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -609,29 +599,29 @@ body {
   position: relative;
   display: flex;
   align-items: center;
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-100);
 }
 
 .search-icon {
   position: absolute;
   left: 14px;
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   color: var(--text-tertiary);
   pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  height: 48px;
-  padding: 0 var(--space-4) 0 44px;
+  height: 42px;
+  padding: 0 var(--space-300) 0 40px;
   border-radius: var(--radius-pill);
   border: 1px solid var(--border);
   background-color: var(--surface);
   color: var(--text);
   font-family: inherit;
-  font-size: 15px;
-  transition: all var(--dur-fast) var(--ease-out);
+  font-size: 14px;
+  transition: all var(--dur-fast) var(--ease-base);
 }
 
 .search-input:focus {
@@ -643,7 +633,7 @@ body {
 
 .search-clear-btn {
   position: absolute;
-  right: 12px;
+  right: 10px;
   background: none;
   border: none;
   color: var(--text-tertiary);
@@ -661,23 +651,23 @@ body {
   position: absolute;
   right: 14px;
   font-size: 11px;
+  font-family: var(--font-mono);
   font-weight: 600;
-  padding: 2px 6px;
+  padding: 2px 5px;
   border-radius: 4px;
   background-color: var(--border);
   color: var(--text-tertiary);
   pointer-events: none;
 }
 
-/* Segmented Control Chips (Pills) */
+/* Subject Filter Row (Compact Pills) */
 .filter-row {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-75);
   overflow-x: auto;
-  padding-bottom: var(--space-1);
+  padding-bottom: var(--space-25);
   scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
 .filter-row::-webkit-scrollbar {
@@ -687,11 +677,11 @@ body {
 .filter-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 0 14px;
+  gap: 5px;
+  min-height: 32px;
+  padding: 0 12px;
   border-radius: var(--radius-pill);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   font-family: inherit;
   background-color: var(--surface);
@@ -699,7 +689,7 @@ body {
   border: 1px solid var(--border);
   cursor: pointer;
   white-space: nowrap;
-  transition: all var(--dur-fast) var(--ease-out);
+  transition: all var(--dur-fast) var(--ease-base);
 }
 
 .filter-chip:hover {
@@ -711,87 +701,85 @@ body {
   background-color: var(--accent);
   color: var(--on-accent);
   border-color: var(--accent);
-  box-shadow: 0 2px 8px rgba(252, 76, 2, 0.25);
 }
 
 .chip-count {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
-  padding: 1px 6px;
+  padding: 1px 5px;
   border-radius: var(--radius-pill);
   background-color: rgba(0, 0, 0, 0.08);
-  color: inherit;
 }
 
 .filter-chip.active .chip-count {
   background-color: rgba(255, 255, 255, 0.25);
 }
 
-/* Secondary Filters Row */
-.sub-filters-row {
+/* Streamlined Quick Filters Bar */
+.quick-filters-row {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
-  font-size: 13px;
+  gap: var(--space-100);
+  margin-top: var(--space-75);
+  flex-wrap: wrap;
 }
 
-.sub-filters-group {
+.quick-filters-group {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 .filter-label {
-  color: var(--text-tertiary);
-  font-weight: 600;
-  font-size: 12px;
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-right: 2px;
 }
 
-.sub-chip {
-  padding: 4px 10px;
+.quick-chip {
+  padding: 3px 8px;
   border-radius: var(--radius-sm);
   background-color: var(--surface);
   border: 1px solid var(--border);
   color: var(--text-secondary);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
   cursor: pointer;
   transition: all var(--dur-fast);
 }
 
-.sub-chip:hover {
+.quick-chip:hover {
   color: var(--text);
 }
 
-.sub-chip.active {
+.quick-chip.active {
   background-color: var(--text);
   color: var(--bg);
   border-color: var(--text);
 }
 
 .results-count-text {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--text-secondary);
 }
 
 /* ==========================================================================
-   FEED SECTION (STRAVA-STYLE ACTIVITY CARDS)
+   ACTIVITY FEED SECTION (Decluttered Cards)
    ========================================================================== */
 .feed-section {
-  padding: var(--space-6) 0 var(--space-10);
+  padding: var(--space-400) 0 var(--space-800);
   flex: 1;
 }
 
 .cards-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-4);
+  gap: var(--space-200);
 }
 
 @media (min-width: 768px) {
@@ -806,7 +794,7 @@ body {
   }
 }
 
-/* Card Component */
+/* Activity Card */
 .activity-card {
   background-color: var(--surface-raised);
   border: 1px solid var(--border);
@@ -815,43 +803,38 @@ body {
   flex-direction: column;
   justify-content: space-between;
   box-shadow: var(--shadow-1);
-  transition: transform var(--dur-fast) var(--ease-out),
-              box-shadow var(--dur-fast) var(--ease-out),
-              border-color var(--dur-fast) var(--ease-out);
+  transition: transform var(--dur-fast) var(--ease-base),
+              border-color var(--dur-fast) var(--ease-base),
+              box-shadow var(--dur-fast) var(--ease-base);
   overflow: hidden;
-  position: relative;
 }
 
 .activity-card:hover {
   transform: translateY(-2px);
-  box-shadow: var(--shadow-2);
   border-color: var(--border-strong);
+  box-shadow: var(--shadow-2);
 }
 
 .activity-card.placeholder-card {
   border-style: dashed;
   background-color: var(--surface);
-  opacity: 0.92;
-}
-
-.activity-card.placeholder-card:hover {
-  border-color: var(--accent);
+  opacity: 0.90;
 }
 
 /* Card Header */
 .card-header {
-  padding: var(--space-4) var(--space-4) var(--space-2);
+  padding: var(--space-200) var(--space-200) var(--space-100);
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: var(--space-100);
 }
 
 .card-subject-pill {
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   padding: 3px 8px;
   border-radius: var(--radius-pill);
 }
@@ -876,12 +859,7 @@ body {
   color: var(--semantic-warning);
 }
 
-.card-subject-curriculum {
-  background-color: var(--accent-soft);
-  color: var(--accent);
-}
-
-.card-subject-skills {
+.card-subject-curriculum, .card-subject-skills {
   background-color: var(--accent-soft);
   color: var(--accent);
 }
@@ -889,7 +867,7 @@ body {
 .card-header-right {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-75);
 }
 
 .card-badge {
@@ -934,34 +912,31 @@ body {
   transition: color var(--dur-fast);
 }
 
-.card-bookmark-btn:hover {
-  color: var(--accent);
-}
-
-.card-bookmark-btn.bookmarked {
+.card-bookmark-btn:hover, .card-bookmark-btn.bookmarked {
   color: var(--accent);
 }
 
 .card-bookmark-btn svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   fill: currentColor;
 }
 
 /* Card Body */
 .card-body {
-  padding: 0 var(--space-4) var(--space-3);
+  padding: 0 var(--space-200) var(--space-200);
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-75);
 }
 
 .card-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 1.35;
   color: var(--text);
   letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 .card-subtitle {
@@ -972,40 +947,27 @@ body {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-wrap: pretty;
 }
 
-/* Card Stats Row (Strava-Style Key Stats) */
-.card-stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-2);
-  background-color: var(--surface);
-  border-radius: var(--radius-md);
-  padding: var(--space-2) var(--space-3);
-  margin-top: var(--space-2);
-  border: 1px solid var(--border);
-}
-
-.card-stat-item {
+/* Clean Inline Metadata Line (Replaces heavy 4-column box!) */
+.card-meta-line {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--space-50);
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
-.card-stat-label {
-  font-size: 10px;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
+.meta-pill {
   font-weight: 600;
-  letter-spacing: 0.04em;
 }
 
-.card-stat-value {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.meta-dot {
+  color: var(--border-strong);
+  user-select: none;
 }
 
 /* Topic Chips */
@@ -1013,57 +975,49 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  margin-top: var(--space-2);
+  margin-top: var(--space-50);
 }
 
 .topic-tag {
   font-size: 11px;
-  padding: 2px 7px;
-  border-radius: 4px;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
   background-color: var(--surface);
   color: var(--text-secondary);
   border: 1px solid var(--border);
   font-weight: 500;
 }
 
-/* Card Actions Footer */
+/* Card Footer Actions */
 .card-footer {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-100) var(--space-200);
   border-top: 1px solid var(--border);
   background-color: var(--surface);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: var(--space-100);
 }
 
 .card-actions-left {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-75);
   flex: 1;
 }
 
-.card-actions-right {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-}
-
-/* ==========================================================================
-   EMPTY STATE (NO RESULTS)
-   ========================================================================== */
+/* Empty State */
 .empty-state {
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: var(--space-10) var(--space-4);
+  padding: var(--space-800) var(--space-200);
   background-color: var(--surface);
   border: 1px dashed var(--border-strong);
   border-radius: var(--radius-lg);
-  gap: var(--space-3);
+  gap: var(--space-100);
 }
 
 .empty-state.visible {
@@ -1071,13 +1025,13 @@ body {
 }
 
 .empty-icon {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   color: var(--text-tertiary);
 }
 
 .empty-title {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--text);
 }
@@ -1085,26 +1039,26 @@ body {
 .empty-text {
   font-size: 14px;
   color: var(--text-secondary);
-  max-width: 400px;
+  max-width: 380px;
 }
 
 /* ==========================================================================
-   MODAL DIALOGS (STRAVA DETAIL VIEW & COACH PROMPT)
+   MODAL DIALOGS
    ========================================================================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-4);
+  padding: var(--space-200);
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--dur-base) var(--ease-out);
+  transition: opacity var(--dur-base) var(--ease-base);
 }
 
 .modal-overlay.open {
@@ -1118,12 +1072,12 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-modal);
   width: 100%;
-  max-width: 640px;
+  max-width: 620px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  transform: translateY(16px) scale(0.98);
-  transition: transform var(--dur-base) var(--ease-out);
+  transform: translateY(12px) scale(0.98);
+  transition: transform var(--dur-base) var(--ease-base);
   overflow: hidden;
 }
 
@@ -1132,17 +1086,19 @@ body {
 }
 
 .modal-header {
-  padding: var(--space-5) var(--space-6);
+  padding: var(--space-300) var(--space-400);
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: var(--space-200);
 }
 
-.modal-title-group {
-  display: flex;
-  flex-direction: column;
+.modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
 }
 
 .modal-tag {
@@ -1153,64 +1109,52 @@ body {
   margin-bottom: 2px;
 }
 
-.modal-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--text);
-  line-height: 1.3;
-}
-
 .modal-body {
-  padding: var(--space-6);
+  padding: var(--space-400);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-300);
 }
 
 .modal-meta-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-3);
+  gap: var(--space-200);
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: var(--space-4);
-}
-
-.modal-meta-item {
-  display: flex;
-  flex-direction: column;
+  padding: var(--space-200);
 }
 
 .modal-meta-label {
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   text-transform: uppercase;
   color: var(--text-tertiary);
 }
 
 .modal-meta-val {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 700;
   color: var(--text);
 }
 
 .modal-section-title {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--text-secondary);
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-75);
 }
 
 .modal-desc-box {
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: var(--space-4);
-  font-size: 14px;
+  padding: var(--space-200);
+  font-size: 13.5px;
   color: var(--text);
   line-height: 1.6;
 }
@@ -1225,70 +1169,63 @@ body {
   background-color: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: var(--space-2) var(--space-3);
+  padding: var(--space-75) var(--space-100);
   font-family: var(--font-mono);
   font-size: 12px;
   color: var(--text-secondary);
   word-break: break-all;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
 }
 
 .modal-footer {
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-200) var(--space-400);
   border-top: 1px solid var(--border);
   background-color: var(--surface);
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--space-3);
+  gap: var(--space-100);
 }
 
-/* Prompt Box inside Coach Modal */
 .prompt-box {
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: var(--space-4);
+  padding: var(--space-200);
   font-family: var(--font-mono);
-  font-size: 12.5px;
+  font-size: 12px;
   line-height: 1.6;
-  max-height: 380px;
+  max-height: 360px;
   overflow-y: auto;
   white-space: pre-wrap;
   color: var(--text);
 }
 
-/* ==========================================================================
-   TOAST NOTIFICATION (FEEDBACK UNDER 100ms)
-   ========================================================================== */
+/* Toast Notifications */
 .toast-container {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 20px;
+  right: 20px;
   z-index: 2000;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-75);
   pointer-events: none;
 }
 
 .toast {
   background-color: var(--text);
   color: var(--bg);
-  padding: 12px 20px;
+  padding: 10px 16px;
   border-radius: var(--radius-pill);
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 600;
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  box-shadow: var(--shadow-3);
-  transform: translateY(12px);
+  gap: var(--space-75);
+  box-shadow: var(--shadow-2);
+  transform: translateY(10px);
   opacity: 0;
-  transition: all var(--dur-base) var(--ease-out);
+  transition: all var(--dur-fast) var(--ease-base);
   pointer-events: auto;
 }
 
@@ -1299,17 +1236,15 @@ body {
 
 .toast svg {
   color: var(--accent);
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
-/* ==========================================================================
-   FOOTER (STRAVA STYLE)
-   ========================================================================== */
+/* Footer (B10) */
 .site-footer {
   border-top: 1px solid var(--border);
   background-color: var(--surface);
-  padding: var(--space-8) 0;
+  padding: var(--space-600) 0;
   margin-top: auto;
   font-size: 13px;
   color: var(--text-secondary);
@@ -1318,7 +1253,7 @@ body {
 .footer-inner {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-200);
   align-items: center;
   text-align: center;
 }
@@ -1334,7 +1269,7 @@ body {
 .footer-links {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-300);
   flex-wrap: wrap;
 }
 
@@ -1349,14 +1284,15 @@ body {
   color: var(--accent);
 }
 
-/* ==========================================================================
-   REDUCED MOTION SUPPORT
-   ========================================================================== */
+/* Reduced Motion (B7 & B11) */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .reveal-word {
+    opacity: 1 !important;
   }
 }
